@@ -5,6 +5,7 @@ const request = require('supertest');
 const app = require('../../lib/app');
 const Store = require('../../lib/models/Store');
 const Purchase = require('../../lib/models/Purchase');
+const Customer = require('../../lib/models/Customer');
 const Chance = require('chance');
 const chance = new Chance();
 
@@ -16,18 +17,31 @@ const createStore = name => {
   })
     .then(store => ({ ...store, _id: store._id.toString() }));
 };
+
+const createCustomer = () => {
+  return Customer.create({
+    name: chance.name()
+  })
+    .then(customer => customer);
+};
+
 const createPurchase = () => {
-  return createStore('Raskin Bobbins')
-    .then(createdStore => {
+  return Promise.all([
+    createCustomer(),
+    createStore('Raskin Bobbins')
+  ])
+    .then(([createdCustomer, createdStore]) => {
       return Purchase.create({
         product: chance.pickone(createdStore._doc.products),
         price: chance.integer({ min: 1, max: 12 }),
-        store: createdStore._doc._id
+        store: createdStore._doc._id,
+        customer: createdCustomer._doc._id
       })
         .then(purchase => ({ ...purchase._doc, _id: purchase._doc._id.toString() })
         );
     });
 };
+
 describe('purchase routes test', () => {
   it('can create a purchase', () => {
     return createPurchase()
