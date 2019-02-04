@@ -4,6 +4,7 @@ require('../../lib/utils/connect')();
 const Purchase = require('../../lib/models/Purchase');
 const { Types, connection } = require('mongoose');
 
+// const createStore = ()
 
 
 describe.skip('test purchase model', () => {
