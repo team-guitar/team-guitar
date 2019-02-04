@@ -33,7 +33,7 @@ describe('purchase routes test', () => {
     return createPurchase()
       .then(purchase => {
         return request(app)
-          .post('/purchases')
+          .post('/purchase')
           .send(purchase);
       })
       .then(res => {
