@@ -19,7 +19,7 @@ describe('test store routes', () => {
 
   it('can post a store to the DB', () => {
     return request(app)
-      .post('/')
+      .post('/store')
     //   .set('Authorization', `Bearer${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
@@ -29,6 +29,7 @@ describe('test store routes', () => {
         expect(res.body).toEqual({
           products: ['cone', 'cone2'],
           address: '301 NW 10th Ave',
+          __v: 0,
           _id: expect.any(String) 
         });
       });
