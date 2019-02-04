@@ -11,8 +11,8 @@ const createStore = name => {
     products: ['cone', 'milkshake'],
     address: '123 Main St.'
   })
-  .then(store => ({...store, _id: store._id.toString()}))
-}
+    .then(store => ({ ...store, _id: store._id.toString() }));
+};
 
 
 describe('test purchase model', () => {
@@ -39,6 +39,6 @@ describe('test purchase model', () => {
           store: expect.any(Types.ObjectId),
           _id: expect.any(Types.ObjectId)
         });
-      })
+      });
   });
 });
