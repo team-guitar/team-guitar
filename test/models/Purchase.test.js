@@ -2,6 +2,7 @@ require('dotenv').config();
 require('../../lib/utils/connect')();
 const Purchase = require('../../lib/models/Purchase');
 const Store = require('../../lib/models/Store');
+const Customer = require('../../lib/models/Customer');
 const { Types, connection } = require('mongoose');
 
 const createStore = name => {
@@ -12,6 +13,9 @@ const createStore = name => {
   })
     .then(store => ({ ...store, _id: store._id.toString() }));
 };
+const createCustomer = 
+
+
 
 
 describe('test purchase model', () => {
