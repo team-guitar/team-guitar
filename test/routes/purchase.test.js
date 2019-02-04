@@ -1,8 +1,8 @@
 require('dotenv').config();
 require('../../lib/utils/connect')();
 // const { connection } = require('mongoose');
-// const request = require('supertest');
-// const app = require('../../lib/app');
+const request = require('supertest');
+const app = require('../../lib/app');
 const Store = require('../../lib/models/Store');
 const Purchase = require('../../lib/models/Purchase');
 const Chance = require('chance');
@@ -28,7 +28,19 @@ const createPurchase = () => {
         );
     });
 };
-
+describe('purchase routes test', () => {
+  it('can create a purchase', () => {
+    return createPurchase()
+      .then(purchase => {
+        return request(app)
+          .post('/purchases')
+          .send(purchase);
+      })
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Object));
+      });
+  });
+});
 
 
 
