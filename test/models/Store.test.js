@@ -1,6 +1,6 @@
 require('dotenv').config();
 require('../../lib/utils/connect')();
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const Store = require('../../lib/models/Store');
 const { Types, connection } = require('mongoose');
 
@@ -12,9 +12,6 @@ describe('test store model', () => {
   });
   afterAll((done) => {
     connection.close(done);
-  });
-  afterAll((done) => {
-    mongoose.disconnect(done);
   });
 
   it('can validate a Store model', () => {

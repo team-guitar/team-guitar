@@ -1,12 +1,12 @@
 require('dotenv').config();
 require('../../lib/utils/connect')();
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const Purchase = require('../../lib/models/Purchase');
 const { Types, connection } = require('mongoose');
 
 
 
-describe('test purchase model', () => {
+describe.skip('test purchase model', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
@@ -14,9 +14,6 @@ describe('test purchase model', () => {
   });
   afterAll((done) => {
     connection.close(done);
-  });
-  afterAll((done) => {
-    mongoose.disconnect(done);
   });
 
   it('validates a good purchase model', () => {
