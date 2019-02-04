@@ -1,12 +1,10 @@
 require('dotenv').config();
 require('../../lib/utils/connect')();
 // const mongoose = require('mongoose');
-const Purchase = require('../../lib/models/Purchase');
+const Store = require('../../lib/models/Store');
 const { Types, connection } = require('mongoose');
 
-
-
-describe.skip('test purchase model', () => {
+describe('test store model', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
@@ -16,14 +14,14 @@ describe.skip('test purchase model', () => {
     connection.close(done);
   });
 
-  it('validates a good purchase model', () => {
-    const purchase = new Purchase({
-      product: 'cone',
-      price: 5.00
+  it('can validate a Store model', () => {
+    const store = new Store({
+      products: ['cone', 'cone2'],
+      address: '301 NW 10th Ave'
     });
-    expect(purchase.toJSON()).toEqual({
-      product: 'cone',
-      price: 5.00,
+    expect(store.toJSON()).toEqual({
+      products: ['cone', 'cone2'],
+      address: '301 NW 10th Ave',
       _id: expect.any(Types.ObjectId)
     });
   });
