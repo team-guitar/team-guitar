@@ -55,4 +55,20 @@ describe('test customer routes', () => {
         expect(res.body).toEqual(expect.any(Array));
       });
   });
+  it('can get a customer by their id', () => {
+    return createCustomer()
+      .then(customer => {
+        return request(app)
+          .post('/customer')
+          .send(customer)
+          .then(postedCustomer => {
+            const id = postedCustomer._id;
+            return request(app)
+              .get(`/customer/${id}`)
+              .then(res => {
+                expect(res.body).toEqual(customer);
+              });
+          });
+      })
+  });
 });
