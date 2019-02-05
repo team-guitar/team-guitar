@@ -5,6 +5,7 @@ const seedData = require('./lib/utils/seedData');
 
 seedData({})
   .then(() => {
+    // eslint-disable-next-line no-console
     return console.log('***SEED DATA DEPLOYED & INITIALIZED***');
   })
   .finally(() => {
