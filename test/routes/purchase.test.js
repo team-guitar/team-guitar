@@ -1,6 +1,6 @@
 require('dotenv').config();
 require('../../lib/utils/connect')();
-// const { connection } = require('mongoose');
+const { connection } = require('mongoose');
 const request = require('supertest');
 const app = require('../../lib/app');
 const Store = require('../../lib/models/Store');
@@ -43,6 +43,15 @@ const createPurchase = () => {
 };
 
 describe('purchase routes test', () => {
+  beforeEach(done => {
+    return connection.dropDatabase(() => {
+      done();
+    });
+  });
+  afterAll((done) => {
+    connection.close(done);
+  });
+
   it('can create a purchase', () => {
     return createPurchase()
       .then(purchase => {
@@ -52,6 +61,22 @@ describe('purchase routes test', () => {
       })
       .then(res => {
         expect(res.body).toEqual(expect.any(Object));
+      });
+  });
+  it('can get a purchase by id', () => {
+    return createPurchase()
+      .then(purchase => {
+        return request(app)
+          .post('/purchase')
+          .send(purchase);
+      })
+      .then(postedPurchase => {
+        const _id = postedPurchase.request._data._id;
+        return request(app)
+          .get(`/purchase/${_id}`)
+          .then(res => {
+            expect(res.body._id).toEqual(postedPurchase.request._data._id);
+          });
       });
   });
 });
