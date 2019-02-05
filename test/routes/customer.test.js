@@ -39,6 +39,20 @@ describe('test customer routes', () => {
           __v: 0
         });
       });
-
+  });
+  it('can get all customers', () => {
+    return createCustomer()
+      .then(customer => {
+        return request(app)
+          .post('/customer')
+          .send(customer);
+      })
+      .then(() => {
+        return request(app)
+          .get('/customer');
+      })
+      .then(res => {
+        expect(res.body).toHaveLength(1);
+      });
   });
 });
