@@ -67,7 +67,6 @@ describe('test store routes', () => {
         return request(app)
           .get(`/store/${id}`)
           .then(res => {
-            console.log(res);
             expect(res.body._id).toEqual(postedStore.body._id);
           });
       });
