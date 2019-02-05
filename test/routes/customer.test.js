@@ -96,10 +96,10 @@ describe('test customer routes', () => {
       })
       .then(customer => {
         return request(app)
-          .delete(`/customer/${customer.body._id}`);
-      })
-      .then(res => {
-        expect(res.body).toEqual({ deleted: 1 });
+          .delete(`/customer/${customer.body._id}`)
+          .then(res => {
+            expect(res.body).toEqual(customer.body);
+          });
       });
   });
 });
