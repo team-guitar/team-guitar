@@ -6,6 +6,7 @@ const request = require('supertest');
 const app = require('../../lib/app');
 
 
+
 describe('test store routes', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
@@ -19,7 +20,7 @@ describe('test store routes', () => {
   it('can post a store to the DB', () => {
     return request(app)
       .post('/store')
-    //   .set('Authorization', `Bearer${getToken()}`)
+      // .set('Authorization', `Bearer${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
         address: '301 NW 10th Ave',
@@ -35,5 +36,21 @@ describe('test store routes', () => {
         });
       });
   });
-
+  it('can get all stores in DB', () => {
+    return request(app)
+      .post('/store')
+      // .set('Authorization', `Bearer${getToken()}`)
+      .send({
+        products: ['cone', 'cone2'],
+        address: '301 NW 10th Ave',
+        name: 'Raskin Bobbins'
+      })
+      .then(() =>{
+        return request(app)
+          .get('/store');
+      })
+      .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+      });
+  });
 });
