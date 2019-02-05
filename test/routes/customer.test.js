@@ -52,7 +52,7 @@ describe('test customer routes', () => {
           .get('/customer');
       })
       .then(res => {
-        expect(res.body).toHaveLength(1);
+        expect(res.body).toEqual(expect.any(Array));
       });
   });
 });
