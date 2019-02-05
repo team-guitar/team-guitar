@@ -71,4 +71,20 @@ describe('test customer routes', () => {
           });
       });
   });
+  it('can update a customer', () => {
+    return createCustomer()
+      .then(createdCustomer => {
+        return request(app)
+          .post('/customer')
+          .send(createdCustomer);
+      })
+      .then(customer => {
+        return request(app)
+          .patch(`/customer/${customer.body._id}`)
+          .send({ name: 'Bill' });
+      })
+      .then(res => {
+        expect(res.body.name).toEqual('Bill');
+      });
+  });
 });
