@@ -75,7 +75,7 @@ describe('purchase routes test', () => {
         return request(app)
           .get(`/purchase/${_id}`)
           .then(res => {
-            expect(res.body).toEqual(postedPurchase.request._data);
+            expect(res.body._id).toEqual(postedPurchase.request._data._id);
           });
       });
   });
