@@ -62,13 +62,13 @@ describe('test customer routes', () => {
           .post('/customer')
           .send(customer)
           .then(postedCustomer => {
-            const id = postedCustomer._id;
+            const id = postedCustomer.body._id;
             return request(app)
               .get(`/customer/${id}`)
               .then(res => {
-                expect(res.body).toEqual(customer);
+                expect(res.body.name).toEqual(postedCustomer.body.name);
               });
           });
-      })
+      });
   });
 });
