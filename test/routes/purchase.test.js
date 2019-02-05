@@ -91,7 +91,6 @@ describe('purchase routes test', () => {
           .get('/purchase');
       })
       .then(res => {
-        console.log(res);
         expect(res.body).toEqual(expect.any(Array));
       });
   });
