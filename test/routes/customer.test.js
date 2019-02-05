@@ -87,4 +87,19 @@ describe('test customer routes', () => {
         expect(res.body.name).toEqual('Bill');
       });
   });
+  it('can delete a customer by id', () => {
+    return createCustomer()
+      .then(createdCustomer => {
+        return request(app)
+          .post('/customer')
+          .send(createdCustomer);
+      })
+      .then(customer => {
+        return request(app)
+          .delete(`/customer/${customer.body._id}`);
+      })
+      .then(res => {
+        expect(res.body).toEqual({ deleted: 1 });
+      });
+  });
 });
