@@ -79,6 +79,22 @@ describe('purchase routes test', () => {
           });
       });
   });
+  it('can get all purchases', () => {
+    return createPurchase()
+      .then(purchase => {
+        return request(app)
+          .post('/purchase')
+          .send(purchase);
+      })
+      .then(() => {
+        return request(app)
+          .get('/purchase');
+      })
+      .then(res => {
+        console.log(res);
+        expect(res.body).toEqual(expect.any(Array));
+      });
+  });
 });
 
 
