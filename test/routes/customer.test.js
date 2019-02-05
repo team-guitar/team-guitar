@@ -29,7 +29,7 @@ describe('test customer routes', () => {
     return createCustomer()
       .then(customer => {
         return request(app)
-          .post('/')
+          .post('/customer')
           .send(customer);
       })
       .then(res => {
