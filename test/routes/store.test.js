@@ -53,4 +53,23 @@ describe('test store routes', () => {
         expect(res.body).toEqual(expect.any(Array));
       });
   });
+  it('can get a store by id', () => {
+    return request(app)
+      .post('/store')
+    // .set('Authorization', `Bearer${getToken()}`)
+      .send({
+        products: ['cone', 'cone2'],
+        address: '301 NW 10th Ave',
+        name: 'Raskin Bobbins'
+      })
+      .then(postedStore => {
+        const id = postedStore.body._id;
+        return request(app)
+          .get(`/store/${id}`)
+          .then(res => {
+            console.log(res);
+            expect(res.body._id).toEqual(postedStore.body._id);
+          });
+      });
+  });
 });
