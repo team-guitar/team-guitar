@@ -67,7 +67,6 @@ describe('Users ', () => {
         return user.compare('p455w0rd');
       })
       .then(result => {
-        console.log('Tags says', result);
         expect(result).toBeTruthy();
       });
   });
@@ -91,8 +90,6 @@ describe('Users ', () => {
       .then(user => tokenize(user))
       .then(token => User.findByToken(token))
       .then(userFromToken => {
-        console.log('banana',  userFromToken._id);
-        // -> then expect to get a user
         expect(userFromToken).toEqual({
           email: 'test@test.com',
           _id: expect.any(String)
