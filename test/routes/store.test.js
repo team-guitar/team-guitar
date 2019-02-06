@@ -4,6 +4,8 @@ require('../../lib/utils/connect')();
 const { connection } = require('mongoose');
 const request = require('supertest');
 const app = require('../../lib/app');
+const { getToken } = require('../../lib/utils/dataHelper');
+const { tokenize, untokenize } = require('../../lib/utils/token');
 
 
 
@@ -17,10 +19,11 @@ describe('test store routes', () => {
     connection.close(done);
   });
 
-  it('can post a store to the DB', () => {
+  it.only('can post a store to the DB', () => {
     return request(app)
       .post('/store')
-      // .set('Authorization', `Bearer${getToken()}`)
+      .then (() => console.log('Where is my token', getToken()))
+      .set('Authorization', `Bearer ${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
         address: '301 NW 10th Ave',
