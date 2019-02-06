@@ -79,9 +79,9 @@ describe('test store routes', () => {
         address: '301 NW 10th Ave',
         name: 'Raskin Bobbins'
       })
-      .then(postedStore => {
+      .then(store => {
         return request(app)
-          .patch(`/store/${postedStore.body._id}`)
+          .patch(`/store/${store.body._id}`)
           .send({
             products: ['cone', 'cone2'],
             address: '30100 NW 10th Ave',
@@ -89,6 +89,22 @@ describe('test store routes', () => {
           })
           .then(res => {
             expect(res.body.address).toEqual('30100 NW 10th Ave');
+          });
+      });
+  });
+  it'can delete a store by id', () => {
+    return request(app)
+      .post('/store')
+      .send({
+        products: ['cone', 'cone2'],
+        address: '30100 NW 10th Ave',
+        name: 'Raskin Bobbins'
+      })
+      .then(store => {
+        return request(app)
+          .delete(`/store/${store.body._id}`)
+          .then(res => {
+            expect(res.body).toEqual(store.body);
           });
       });
   });
