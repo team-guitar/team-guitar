@@ -71,4 +71,25 @@ describe('test store routes', () => {
           });
       });
   });
+  it('can update a store', () => {
+    return request(app)
+      .post('/store')
+      .send({
+        products: ['cone', 'cone2'],
+        address: '301 NW 10th Ave',
+        name: 'Raskin Bobbins'
+      })
+      .then(postedStore => {
+        return request(app)
+          .patch(`/store/${postedStore.body._id}`)
+          .send({
+            products: ['cone', 'cone2'],
+            address: '30100 NW 10th Ave',
+            name: 'Raskin Bobbins'
+          })
+          .then(res => {
+            expect(res.body.address).toEqual('30100 NW 10th Ave');
+          });
+      });
+  });
 });
