@@ -6,6 +6,7 @@ const app = require('../../lib/app');
 const Customer = require('../../lib/models/Customer');
 const Chance = require('chance');
 const chance  = new Chance();
+const { getToken } = require('../../lib/utils/dataHelper');
 
 const createCustomer = () => {
   return Customer.create({
@@ -40,11 +41,12 @@ describe('test customer routes', () => {
         });
       });
   });
-  it('can get all customers', () => {
+  it.only('can get all customers', () => {
     return createCustomer()
       .then(customer => {
         return request(app)
           .post('/customer')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(customer);
       })
       .then(() => {

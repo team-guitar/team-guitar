@@ -5,7 +5,7 @@ const { connection } = require('mongoose');
 const request = require('supertest');
 const app = require('../../lib/app');
 const { getToken } = require('../../lib/utils/dataHelper');
-const { tokenize, untokenize } = require('../../lib/utils/token');
+
 
 
 
@@ -22,7 +22,6 @@ describe('test store routes', () => {
   it.only('can post a store to the DB', () => {
     return request(app)
       .post('/store')
-      .then (() => console.log('Where is my token', getToken()))
       .set('Authorization', `Bearer ${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
