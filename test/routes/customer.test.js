@@ -16,7 +16,7 @@ const createCustomer = () => {
 };
 
 
-describe('test customer routes', () => {
+describe.only('test customer routes', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
@@ -31,6 +31,7 @@ describe('test customer routes', () => {
       .then(customer => {
         return request(app)
           .post('/customer')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(customer);
       })
       .then(res => {
@@ -41,7 +42,7 @@ describe('test customer routes', () => {
         });
       });
   });
-  it.only('can get all customers', () => {
+  it('can get all customers', () => {
     return createCustomer()
       .then(customer => {
         return request(app)
@@ -51,7 +52,8 @@ describe('test customer routes', () => {
       })
       .then(() => {
         return request(app)
-          .get('/customer');
+          .get('/customer')
+          .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
         expect(res.body).toEqual(expect.any(Array));
@@ -62,6 +64,7 @@ describe('test customer routes', () => {
       .then(customer => {
         return request(app)
           .post('/customer')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(customer)
           .then(postedCustomer => {
             const id = postedCustomer.body._id;
@@ -78,11 +81,13 @@ describe('test customer routes', () => {
       .then(createdCustomer => {
         return request(app)
           .post('/customer')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(createdCustomer);
       })
       .then(customer => {
         return request(app)
           .patch(`/customer/${customer.body._id}`)
+          .set('Authorization', `Bearer ${getToken()}`)
           .send({ name: 'Bill' });
       })
       .then(res => {
@@ -94,11 +99,13 @@ describe('test customer routes', () => {
       .then(createdCustomer => {
         return request(app)
           .post('/customer')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(createdCustomer);
       })
       .then(customer => {
         return request(app)
           .delete(`/customer/${customer.body._id}`)
+          .set('Authorization', `Bearer ${getToken()}`)
           .then(res => {
             expect(res.body).toEqual(customer.body);
           });
