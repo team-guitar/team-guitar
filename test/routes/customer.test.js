@@ -16,7 +16,7 @@ const createCustomer = () => {
 };
 
 
-describe.only('test customer routes', () => {
+describe('test customer routes', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
@@ -59,6 +59,7 @@ describe.only('test customer routes', () => {
         expect(res.body).toEqual(expect.any(Array));
       });
   });
+
   it('can get a customer by their id', () => {
     return createCustomer()
       .then(customer => {
@@ -70,12 +71,14 @@ describe.only('test customer routes', () => {
             const id = postedCustomer.body._id;
             return request(app)
               .get(`/customer/${id}`)
+              .set('Authorization', `Bearer ${getToken()}`)
               .then(res => {
                 expect(res.body.name).toEqual(postedCustomer.body.name);
               });
           });
       });
   });
+
   it('can update a customer', () => {
     return createCustomer()
       .then(createdCustomer => {

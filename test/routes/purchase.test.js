@@ -8,6 +8,7 @@ const Purchase = require('../../lib/models/Purchase');
 const Customer = require('../../lib/models/Customer');
 const Chance = require('chance');
 const chance = new Chance();
+const { getToken } = require('../../lib/utils/dataHelper');
 
 const createStore = name => {
   return Store.create({
@@ -57,6 +58,7 @@ describe('purchase routes test', () => {
       .then(purchase => {
         return request(app)
           .post('/purchase')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(purchase);
       })
       .then(res => {
@@ -68,12 +70,14 @@ describe('purchase routes test', () => {
       .then(purchase => {
         return request(app)
           .post('/purchase')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(purchase);
       })
       .then(postedPurchase => {
         const _id = postedPurchase.request._data._id;
         return request(app)
           .get(`/purchase/${_id}`)
+          .set('Authorization', `Bearer ${getToken()}`)
           .then(res => {
             expect(res.body._id).toEqual(postedPurchase.request._data._id);
           });
@@ -84,11 +88,13 @@ describe('purchase routes test', () => {
       .then(purchase => {
         return request(app)
           .post('/purchase')
+          .set('Authorization', `Bearer ${getToken()}`)
           .send(purchase);
       })
       .then(() => {
         return request(app)
-          .get('/purchase');
+          .get('/purchase')
+          .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
         expect(res.body).toEqual(expect.any(Array));

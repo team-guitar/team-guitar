@@ -9,7 +9,7 @@ const { getToken } = require('../../lib/utils/dataHelper');
 
 
 
-describe('test store routes', () => {
+describe.only('test store routes', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
