@@ -92,7 +92,7 @@ describe('test store routes', () => {
           });
       });
   });
-  it'can delete a store by id', () => {
+  it('can delete a store by id', () => {
     return request(app)
       .post('/store')
       .send({
