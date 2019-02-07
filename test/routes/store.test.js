@@ -4,10 +4,12 @@ require('../../lib/utils/connect')();
 const { connection } = require('mongoose');
 const request = require('supertest');
 const app = require('../../lib/app');
+const { getToken } = require('../../lib/utils/dataHelper');
 
 
 
-describe('test store routes', () => {
+
+describe.only('test store routes', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
@@ -20,7 +22,7 @@ describe('test store routes', () => {
   it('can post a store to the DB', () => {
     return request(app)
       .post('/store')
-      // .set('Authorization', `Bearer${getToken()}`)
+      .set('Authorization', `Bearer ${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
         address: '301 NW 10th Ave',
@@ -36,10 +38,11 @@ describe('test store routes', () => {
         });
       });
   });
+
   it('can get all stores in DB', () => {
     return request(app)
       .post('/store')
-      // .set('Authorization', `Bearer${getToken()}`)
+      .set('Authorization', `Bearer ${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
         address: '301 NW 10th Ave',
@@ -47,7 +50,8 @@ describe('test store routes', () => {
       })
       .then(() =>{
         return request(app)
-          .get('/store');
+          .get('/store')
+          .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
         expect(res.body).toEqual(expect.any(Array));
@@ -56,7 +60,7 @@ describe('test store routes', () => {
   it('can get a store by id', () => {
     return request(app)
       .post('/store')
-    // .set('Authorization', `Bearer${getToken()}`)
+      .set('Authorization', `Bearer ${getToken()}`)
       .send({
         products: ['cone', 'cone2'],
         address: '301 NW 10th Ave',
@@ -66,8 +70,50 @@ describe('test store routes', () => {
         const id = postedStore.body._id;
         return request(app)
           .get(`/store/${id}`)
+          .set('Authorization', `Bearer ${getToken()}`)
           .then(res => {
             expect(res.body._id).toEqual(postedStore.body._id);
+          });
+      });
+  });
+  it('can update a store', () => {
+    return request(app)
+      .post('/store')
+      .set('Authorization', `Bearer ${getToken()}`)
+      .send({
+        products: ['cone', 'cone2'],
+        address: '301 NW 10th Ave',
+        name: 'Raskin Bobbins'
+      })
+      .then(store => {
+        return request(app)
+          .patch(`/store/${store.body._id}`)
+          .set('Authorization', `Bearer ${getToken()}`)
+          .send({
+            products: ['cone', 'cone2'],
+            address: '30100 NW 10th Ave',
+            name: 'Raskin Bobbins'
+          })
+          .then(res => {
+            expect(res.body.address).toEqual('30100 NW 10th Ave');
+          });
+      });
+  });
+  it('can delete a store by id', () => {
+    return request(app)
+      .post('/store')
+      .set('Authorization', `Bearer ${getToken()}`)
+      .send({
+        products: ['cone', 'cone2'],
+        address: '30100 NW 10th Ave',
+        name: 'Raskin Bobbins'
+      })
+      .then(store => {
+        return request(app)
+          .delete(`/store/${store.body._id}`)
+          .set('Authorization', `Bearer ${getToken()}`)
+          .then(res => {
+            expect(res.body).toEqual(store.body);
           });
       });
   });
