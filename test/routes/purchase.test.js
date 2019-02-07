@@ -103,6 +103,24 @@ describe('purchase routes test', () => {
         expect(res.body).toEqual(expect.any(Array));
       });
   });
+  it('can test revPerStore route', () => {
+    return createPurchase()
+      .then(purchase => {
+        return request(app)
+          .post('/purchase')
+          .set('Authorization', `Bearer ${getToken()}`)
+          .send(purchase);
+      })
+      .then(() => {
+        return request(app)
+          .get('/purchase/stats/revPerStore')
+          .set('Authorization', `Bearer ${getToken()}`);
+      })
+      .then(res => {
+        console.log(res.body);
+        expect(res.body).toEqual(expect.any(Array));
+      });
+  });
 });
 
 
