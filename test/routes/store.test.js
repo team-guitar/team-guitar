@@ -9,7 +9,7 @@ const { getToken } = require('../../lib/utils/dataHelper');
 
 
 
-describe.only('test store routes', () => {
+describe('test store routes', () => {
   beforeEach(done => {
     return connection.dropDatabase(() => {
       done();
@@ -24,13 +24,15 @@ describe.only('test store routes', () => {
       .post('/store')
       .set('Authorization', `Bearer ${getToken()}`)
       .send({
-        products: ['cone', 'cone2'],
+        flavors: ['cone', 'cone2'],
+        sizes: ['single-scoop', 'double-scoop'],
         address: '301 NW 10th Ave',
         name: 'Raskin Bobbins'
       })
       .then(res => {
         expect(res.body).toEqual({
-          products: ['cone', 'cone2'],
+          flavors: ['cone', 'cone2'],
+          sizes: ['single-scoop', 'double-scoop'],
           address: '301 NW 10th Ave',
           name: 'Raskin Bobbins',
           __v: 0,
@@ -44,7 +46,8 @@ describe.only('test store routes', () => {
       .post('/store')
       .set('Authorization', `Bearer ${getToken()}`)
       .send({
-        products: ['cone', 'cone2'],
+        flavors: ['cone', 'cone2'],
+        sizes: ['single-scoop', 'double-scoop'],
         address: '301 NW 10th Ave',
         name: 'Raskin Bobbins'
       })
@@ -62,7 +65,8 @@ describe.only('test store routes', () => {
       .post('/store')
       .set('Authorization', `Bearer ${getToken()}`)
       .send({
-        products: ['cone', 'cone2'],
+        flavors: ['cone', 'cone2'],
+        sizes: ['single-scoop', 'double-scoop'],
         address: '301 NW 10th Ave',
         name: 'Raskin Bobbins'
       })
@@ -81,7 +85,8 @@ describe.only('test store routes', () => {
       .post('/store')
       .set('Authorization', `Bearer ${getToken()}`)
       .send({
-        products: ['cone', 'cone2'],
+        flavors: ['cone', 'cone2'],
+        sizes: ['single-scoop', 'double-scoop'],
         address: '301 NW 10th Ave',
         name: 'Raskin Bobbins'
       })
@@ -90,7 +95,8 @@ describe.only('test store routes', () => {
           .patch(`/store/${store.body._id}`)
           .set('Authorization', `Bearer ${getToken()}`)
           .send({
-            products: ['cone', 'cone2'],
+            flavors: ['cone', 'cone2'],
+            sizes: ['single-scoop', 'double-scoop'],
             address: '30100 NW 10th Ave',
             name: 'Raskin Bobbins'
           })
@@ -104,7 +110,8 @@ describe.only('test store routes', () => {
       .post('/store')
       .set('Authorization', `Bearer ${getToken()}`)
       .send({
-        products: ['cone', 'cone2'],
+        flavors: ['cone', 'cone2'],
+        sizes: ['single-scoop', 'double-scoop'],
         address: '30100 NW 10th Ave',
         name: 'Raskin Bobbins'
       })

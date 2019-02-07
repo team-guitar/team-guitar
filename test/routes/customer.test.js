@@ -10,7 +10,8 @@ const { getToken } = require('../../lib/utils/dataHelper');
 
 const createCustomer = () => {
   return Customer.create({
-    name: chance.name()
+    name: chance.name(),
+    phone: chance.phone()
   })
     .then(customer => customer);
 };
@@ -37,6 +38,7 @@ describe('test customer routes', () => {
       .then(res => {
         expect(res.body).toEqual({
           name: expect.any(String),
+          phone:expect.any(String),
           _id: expect.any(String),
           __v: 0
         });
@@ -91,10 +93,11 @@ describe('test customer routes', () => {
         return request(app)
           .patch(`/customer/${customer.body._id}`)
           .set('Authorization', `Bearer ${getToken()}`)
-          .send({ name: 'Bill' });
+          .send({ name: 'Bill', phone: '206-867-5309' });
       })
       .then(res => {
         expect(res.body.name).toEqual('Bill');
+        expect(res.body.phone).toEqual('206-867-5309');
       });
   });
   it('can delete a customer by id', () => {
