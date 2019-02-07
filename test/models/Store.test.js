@@ -16,12 +16,14 @@ describe('test store model', () => {
 
   it('can validate a Store model', () => {
     const store = new Store({
-      products: ['cone', 'cone2'],
+      flavors: ['raisin granola carnitas', 'root beer rhudabega'],
+      sizes: ['single-scoop', 'double-scoop'],
       address: '301 NW 10th Ave',
       name: 'Raskin Bobbins'
     });
     expect(store.toJSON()).toEqual({
-      products: ['cone', 'cone2'],
+      flavors: ['raisin granola carnitas', 'root beer rhudabega'],
+      sizes: ['single-scoop', 'double-scoop'],
       address: '301 NW 10th Ave',
       name: 'Raskin Bobbins',
       _id: expect.any(Types.ObjectId)

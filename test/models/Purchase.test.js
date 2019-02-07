@@ -10,14 +10,16 @@ const chance  = new Chance();
 const createStore = name => {
   return Store.create({
     name,
-    products: ['cone', 'milkshake'],
+    flavors: ['cone', 'milkshake'],
+    sizes: ['kids', 'single-scoop', 'double-scoop', 'pint'],
     address: '123 Main St.'
   })
     .then(store => ({ ...store, _id: store._id.toString() }));
 };
 const createCustomer = () => {
   return Customer.create({
-    name: chance.name()
+    name: chance.name(),
+    phone:chance.phone()
   })
     .then(customer => customer);
 };
@@ -42,13 +44,15 @@ describe('test purchase model', () => {
     ])
       .then(([customer, store]) => {
         const purchase  = new Purchase({
-          product: 'cone',
+          flavor: 'mint-shwarma',
+          size:'single-scoop',
           price: 5.00,
           store: store._id,
           customer: customer._id
         });
         expect(purchase.toJSON()).toEqual({
-          product: 'cone',
+          flavor: expect.any(String),
+          size:expect.any(String),
           price: 5.00,
           store: expect.any(Types.ObjectId),
           customer: expect.any(Types.ObjectId),
