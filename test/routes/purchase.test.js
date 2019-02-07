@@ -13,7 +13,8 @@ const { getToken } = require('../../lib/utils/dataHelper');
 const createStore = name => {
   return Store.create({
     name,
-    products: ['cone', 'milkshake'],
+    flavors: ['cone', 'milkshake'],
+    sizes:['kids', 'single-scoop', 'double-scoop', 'pint'],
     address: '123 Main St.'
   })
     .then(store => ({ ...store, _id: store._id.toString() }));
@@ -21,7 +22,8 @@ const createStore = name => {
 
 const createCustomer = () => {
   return Customer.create({
-    name: chance.name()
+    name: chance.name(),
+    phone:chance.phone()
   })
     .then(customer => customer);
 };
@@ -33,7 +35,8 @@ const createPurchase = () => {
   ])
     .then(([createdCustomer, createdStore]) => {
       return Purchase.create({
-        product: chance.pickone(createdStore._doc.products),
+        flavor: chance.pickone(createdStore._doc.flavors),
+        size: chance.pickone(createdStore._doc.sizes),
         price: chance.integer({ min: 1, max: 12 }),
         store: createdStore._doc._id,
         customer: createdCustomer._doc._id
@@ -97,6 +100,24 @@ describe('purchase routes test', () => {
           .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
+        expect(res.body).toEqual(expect.any(Array));
+      });
+  });
+  it('can test revPerStore route', () => {
+    return createPurchase()
+      .then(purchase => {
+        return request(app)
+          .post('/purchase')
+          .set('Authorization', `Bearer ${getToken()}`)
+          .send(purchase);
+      })
+      .then(() => {
+        return request(app)
+          .get('/purchase/stats/revPerStore')
+          .set('Authorization', `Bearer ${getToken()}`);
+      })
+      .then(res => {
+        console.log(res.body);
         expect(res.body).toEqual(expect.any(Array));
       });
   });
