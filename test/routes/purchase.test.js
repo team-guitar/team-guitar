@@ -120,7 +120,7 @@ describe('purchase routes test', () => {
         expect(res.body).toEqual(expect.any(Array));
       });
   });
-  it.only('can test topSpendingCustomers', () => {
+  it('can test topSpendingCustomers', () => {
     return createPurchase()
       .then(purchase => {
         return request(app)

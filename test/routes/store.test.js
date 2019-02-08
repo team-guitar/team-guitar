@@ -1,5 +1,4 @@
 require('dotenv').config();
-// const mongoose = require('mongoose');
 require('../../lib/utils/connect')();
 const { connection } = require('mongoose');
 const request = require('supertest');
@@ -125,3 +124,4 @@ describe('test store routes', () => {
       });
   });
 });
+

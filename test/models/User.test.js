@@ -40,15 +40,6 @@ describe('Users ', () => {
   });
 
   it('takes a temp password and hashes it', () => { 
-    
-    //example of a instance method
-    // const user = new User({ 
-    //   email: 'test@test.com', 
-    //   passwordHash: 'p455w0rd' 
-    // });
-    // user.save();
-    
-    //example of a static method
     return User.create({
       email: 'test@test.com',
       password: 'p455w0rd'
