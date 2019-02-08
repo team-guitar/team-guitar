@@ -75,7 +75,6 @@ describe('test store routes', () => {
           .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
-        console.log(res.body);
         expect(res.text).toContain('Portland');
       });
   });

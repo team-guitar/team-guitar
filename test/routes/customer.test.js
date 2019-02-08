@@ -58,7 +58,6 @@ describe('test customer routes', () => {
           .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
-        console.log(res.body)
         expect(res.body).toEqual(expect.any(Array));
       });
   });
@@ -69,7 +68,7 @@ describe('test customer routes', () => {
         return request(app)
           .post('/customer')
           .set('Authorization', `Bearer ${getToken()}`)
-          .send({ name: 'lance merrill', phone: '808278787'});
+          .send({ name: 'lance merrill', phone: '808278787' });
       })
       .then(() => {
         return request(app)
@@ -77,7 +76,6 @@ describe('test customer routes', () => {
           .set('Authorization', `Bearer ${getToken()}`);
       })
       .then(res => {
-        console.log(res.body);
         expect(res.text).toContain('lance');
       });
   });
