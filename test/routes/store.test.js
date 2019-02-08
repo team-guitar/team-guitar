@@ -59,6 +59,26 @@ describe('test store routes', () => {
         expect(res.body).toEqual(expect.any(Array));
       });
   });
+  it('can get all stores in DB by QUERY', () => {
+    return request(app)
+      .post('/store')
+      .set('Authorization', `Bearer ${getToken()}`)
+      .send({
+        flavors: ['cone', 'cone2'],
+        sizes: ['single-scoop', 'double-scoop'],
+        address: 'Portland, OR',
+        name: 'Raskin Bobbins'
+      })
+      .then(() =>{
+        return request(app)
+          .get('/store/?city=Portland%2C+OR')
+          .set('Authorization', `Bearer ${getToken()}`);
+      })
+      .then(res => {
+        console.log(res.body);
+        expect(res.text).toContain('Portland');
+      });
+  });
   it('can get a store by id', () => {
     return request(app)
       .post('/store')
